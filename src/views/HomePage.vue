@@ -17,7 +17,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="6">
-            <ion-card @click="navigateTo('buscar')">
+            <ion-card @click="navigateTo('BuscarEmpleos')">
               <ion-card-header class="ion-text-center">
                 <ion-icon :icon="search" size="large" />
                 <ion-card-title>Buscar Empleos</ion-card-title>
