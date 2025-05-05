@@ -7,11 +7,12 @@ import CrearOferta from '@/views/CrearOferta.vue';
 import PerfilUsuario from '@/views/PerfilUsuario.vue';
 import RegistrarUsuario from '@/views/RegistrarUsuario.vue';
 import HistorialUsuario from '@/views/HistorialUsuario.vue';
+import Login from '@/views/Login.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/Login'
   },
   {
     path: '/home',
@@ -48,6 +49,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/HistorialUsuario',
     name: 'HistorialUsuario',
     component: HistorialUsuario
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
   }
 ]
 

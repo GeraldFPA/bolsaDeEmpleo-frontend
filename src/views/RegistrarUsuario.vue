@@ -52,11 +52,14 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
     IonList, IonItem, IonLabel, IonInput, IonButton,
     IonBackButton, IonButtons, IonNote
 } from '@ionic/vue';
+
+const router = useRouter();
 
 const nombre = ref('');
 const numero = ref('');
@@ -95,17 +98,17 @@ const registrar = () => {
         return;
     }
 
-    alert('Usuario registrado exitosamente');
+    router.push('/home');
 };
 </script>
 
 <style scoped>
 ion-label {
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 ion-input {
-    font-size: 0.9rem;
+    font-size: 0.8rem; 
 }
 
 .invalid {

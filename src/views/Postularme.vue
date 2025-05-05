@@ -52,6 +52,7 @@
   
   <script setup>
   import { ref } from 'vue';
+  import { useRouter } from 'vue-router'
   import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent,
@@ -59,6 +60,7 @@
     IonBackButton, IonButtons
   } from '@ionic/vue';
   
+  const router = useRouter();
   const nombre = ref('');
   const email = ref('');
   const telefono = ref('');
@@ -88,7 +90,7 @@
       cvFile: cvFile.value,
     });
   
-    alert('¡Tu postulación ha sido enviada con éxito!');
+    router.push('/BuscarEmpleos');
   };
   </script>
   

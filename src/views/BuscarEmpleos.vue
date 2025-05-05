@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
-          <ion-back-button default-href="/home" />
+          <ion-back-button @click="$router.push('/home')" />
         </ion-buttons>
         <ion-title>Buscar Empleos</ion-title>
       </ion-toolbar>
