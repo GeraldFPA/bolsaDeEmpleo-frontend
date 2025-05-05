@@ -36,7 +36,7 @@
 
         <ion-row>
           <ion-col size="6">
-            <ion-card @click="navigateTo('historial')">
+            <ion-card @click="navigateTo('HistorialUsuario')">
               <ion-card-header class="ion-text-center">
                 <ion-icon :icon="time" size="large" />
                 <ion-card-title>Mi Historial</ion-card-title>
