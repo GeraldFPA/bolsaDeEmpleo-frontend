@@ -74,6 +74,11 @@
       alert('Por favor completa los campos obligatorios.');
       return;
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value)) {
+        alert('Por favor, ingresa un correo electrónico válido.');
+        return;
+    }
   
     console.log('Postulación enviada:', {
       nombre: nombre.value,

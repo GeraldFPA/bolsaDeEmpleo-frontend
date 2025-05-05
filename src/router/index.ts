@@ -5,6 +5,7 @@ import BuscarEmpleos from '../views/BuscarEmpleos.vue'
 import Postularme from '@/views/Postularme.vue';
 import CrearOferta from '@/views/CrearOferta.vue';
 import PerfilUsuario from '@/views/PerfilUsuario.vue';
+import RegistrarUsuario from '@/views/RegistrarUsuario.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,6 +37,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/PerfilUsuario',
     name: 'PerfilUsuario',
     component: PerfilUsuario
+  },
+  {
+    path: '/RegistrarUsuario',
+    name: 'RegistrarUsuario',
+    component: RegistrarUsuario
   }
 ]
 
