@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/home" />
+        </ion-buttons>
         <ion-title>Buscar Empleos</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -18,7 +21,7 @@
 
           <ion-card-content>
             <p><strong>Horario:</strong> {{ empleo.horario }}</p>
-            <p><strong>Sueldo:</strong> ${{ empleo.sueldo }}</p>
+            <p><strong>Sueldo:</strong> ₡{{ empleo.sueldo }}</p>
             <p><strong>Contrato:</strong> 
               <ion-badge :color="empleo.contrato === 'Indefinido' ? 'success' : 'warning'">
                 {{ empleo.contrato }}
@@ -38,7 +41,8 @@ import { ref, computed } from 'vue';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonSearchbar, IonList, IonCard, IonCardHeader, IonCardTitle,
-  IonCardSubtitle, IonCardContent, IonBadge, IonButton
+  IonCardSubtitle, IonCardContent, IonBadge, IonButton,
+  IonButtons, IonBackButton
 } from '@ionic/vue';
 
 const searchQuery = ref('');
@@ -79,3 +83,4 @@ ion-badge {
   vertical-align: middle;
 }
 </style>
+

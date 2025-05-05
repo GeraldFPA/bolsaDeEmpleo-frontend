@@ -3,6 +3,8 @@ import { RouteRecordRaw } from 'vue-router';
 import HomePage from '../views/HomePage.vue'
 import BuscarEmpleos from '../views/BuscarEmpleos.vue'
 import Postularme from '@/views/Postularme.vue';
+import CrearOferta from '@/views/CrearOferta.vue';
+import PerfilUsuario from '@/views/PerfilUsuario.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +26,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/Postularme',
     name: 'Postularme',
     component: Postularme
+  },
+  {
+    path: '/CrearOferta',
+    name: 'crearOferta',
+    component: CrearOferta
+  },
+  {
+    path: '/PerfilUsuario',
+    name: 'PerfilUsuario',
+    component: PerfilUsuario
   }
 ]
 

@@ -25,7 +25,7 @@
             </ion-card>
           </ion-col>
           <ion-col size="6">
-            <ion-card @click="navigateTo('ofertar')">
+            <ion-card @click="navigateTo('CrearOferta')">
               <ion-card-header class="ion-text-center">
                 <ion-icon :icon="briefcase" size="large" />
                 <ion-card-title>Ofertar un empleo</ion-card-title>
@@ -44,7 +44,7 @@
             </ion-card>
           </ion-col>
           <ion-col size="6">
-            <ion-card @click="navigateTo('perfil')">
+            <ion-card @click="navigateTo('PerfilUsuario')">
               <ion-card-header class="ion-text-center">
                 <ion-icon :icon="person" size="large" />
                 <ion-card-title>Mi Perfil</ion-card-title>
