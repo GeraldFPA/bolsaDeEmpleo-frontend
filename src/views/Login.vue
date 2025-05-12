@@ -32,16 +32,21 @@ import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 
+
 const router = useRouter();
 const email = ref('');
 const password = ref('');
 
 async function login() {
   try {
-    const response = await fetch('http://localhost:8000/api/login', {
+  const API_URL = import.meta.env.VITE_API_URL; // importar la URL de la API desde el archivo .env
+
+
+    const response = await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         email: email.value,
@@ -50,10 +55,17 @@ async function login() {
     });
 
     if (!response.ok) {
-      throw new Error('Error en las credenciales');
+      const errorBody = await response.text(); // Para ver el error crudo
+      console.error('Código:', response.status, 'Detalle:', errorBody);
+      throw new Error(`HTTP ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('Código de respuesta:', response.status);
+
+    console.log('Respuesta del backend:', data);
+    console.log('Enviando email:', email.value);
+    console.log('Enviando password:', password.value);
     localStorage.setItem('token', data.access_token); // Guarda el token
     console.log('Usuario logueado:', data.user);
 
