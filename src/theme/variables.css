@@ -1,13 +1,2 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
-.md body {
-  /* Ajustes para android */
-  --ion-safe-area-top: 16px;
-}
-:root {
-  /* Ajustes para iOS */
-  --ion-safe-area-top: 20px; /* Valor por defecto */
-  --ion-safe-area-bottom: 20px;
-  --ion-safe-area-left: 20px;
-  --ion-safe-area-right: 20px;
-}
