@@ -31,7 +31,8 @@
 import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 
 const router = useRouter();
 const email = ref('');
@@ -62,12 +63,14 @@ async function login() {
 
     const data = await response.json();
     console.log('Código de respuesta:', response.status);
-
     console.log('Respuesta del backend:', data);
-    console.log('Enviando email:', email.value);
-    console.log('Enviando password:', password.value);
-    localStorage.setItem('token', data.access_token); // Guarda el token
-    console.log('Usuario logueado:', data.user);
+   
+    userStore.setUserData({
+      token: data.access_token,
+      role: data.role,
+      id: data.id,
+    });
+  
 
     router.push('/home');
   } catch (error) {

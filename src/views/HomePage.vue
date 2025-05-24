@@ -17,7 +17,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="6">
-            <ion-card @click="navigateTo('BuscarEmpleos')">
+            <ion-card v-if="role ==='employee'" @click="navigateTo('BuscarEmpleos')">
               <ion-card-header class="ion-text-center">
                 <ion-icon :icon="search" size="large" />
                 <ion-card-title>Buscar Empleos</ion-card-title>
@@ -25,7 +25,7 @@
             </ion-card>
           </ion-col>
           <ion-col size="6">
-            <ion-card @click="navigateTo('CrearOferta')">
+            <ion-card v-if="role === 'company'" @click="navigateTo('CrearOferta')">
               <ion-card-header class="ion-text-center">
                 <ion-icon :icon="briefcase" size="large" />
                 <ion-card-title>Ofertar un empleo</ion-card-title>
@@ -61,9 +61,9 @@
           <div>Teléfono: +52 123 456 7890</div>
           <div>Correo: contacto@jobconnect.com</div>
           <div>
-            Redes: 
-            <a href="#" class="footer-link">Facebook</a> | 
-            <a href="#" class="footer-link">Twitter</a> | 
+            Redes:
+            <a href="#" class="footer-link">Facebook</a> |
+            <a href="#" class="footer-link">Twitter</a> |
             <a href="#" class="footer-link">LinkedIn</a>
           </div>
         </ion-title>
@@ -76,8 +76,18 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonContent, IonFooter, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle } from '@ionic/vue';
 import { personCircle, search, briefcase, time, person } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { computed } from 'vue';
 
+const userStore = useUserStore();
 const router = useRouter();
+const role = computed(() => userStore.role);
+
+
+onMounted(() => {
+  role.value = localStorage.getItem('role');
+});
 
 function navigateTo(page) {
   router.push(`/${page}`);
@@ -93,7 +103,7 @@ function navigateTo(page) {
 }
 
 ion-card {
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
 
@@ -123,4 +133,3 @@ ion-card-title {
   text-decoration: underline;
 }
 </style>
-

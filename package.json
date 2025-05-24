@@ -10,8 +10,7 @@
     "test:e2e": "cypress run",
     "test:unit": "vitest",
     "lint": "eslint .",
-      "dev:tunnel": "vite --mode tunnel"
-
+    "dev:tunnel": "vite --mode tunnel"
   },
   "dependencies": {
     "@capacitor/android": "7.2.0",
@@ -22,7 +21,10 @@
     "@capacitor/status-bar": "7.0.1",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
+    "axios": "^1.9.0",
     "ionicons": "^7.0.0",
+    "pinia": "^3.0.2",
+    "pinia-plugin-persistedstate": "^4.3.0",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0"
   },

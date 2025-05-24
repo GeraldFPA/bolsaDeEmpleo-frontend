@@ -68,8 +68,12 @@ import {
   IonButton, IonBackButton, IonButtons, IonIcon, IonAlert
 } from '@ionic/vue';
 import { cameraOutline } from 'ionicons/icons';
+import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
+const userStore = useUserStore();
+
 
 const nombre = ref('Miguel');
 const apellidos = ref('Santos');
@@ -83,8 +87,24 @@ const cambiarFoto = () => {
   alert('Función de cambiar foto no implementada.');
 };
 
-function cerrarSesion() {
-  router.push('/login');
+async function cerrarSesion() {
+  try {
+    const token = userStore.token;
+    const API_URL = import.meta.env.VITE_API_URL; 
+
+    await axios.post(`${API_URL}/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    userStore.clearUserData();
+   
+    router.push('/login');
+  } catch (error) {
+    console.error('Error cerrando sesión:', error);
+    alert('Hubo un error al cerrar sesión. Intenta nuevamente.');
+  }
 }
 </script>
 
