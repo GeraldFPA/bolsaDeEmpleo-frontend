@@ -71,6 +71,8 @@ import {
     IonBackButton, IonButtons, IonNote, IonRadioGroup, IonRadio
 } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
+import { onMounted } from 'vue';
+
 const userStore = useUserStore();
 
 
@@ -153,7 +155,7 @@ async function registrar() {
             role: data.role,
             id: data.id,
         });
-         
+        clearValues();
         router.push('/home');
 
     } catch (error) {
@@ -161,6 +163,16 @@ async function registrar() {
         alert('Error al registrar usuario. Por favor, inténtalo de nuevo más tarde.');
 
     }
+
+};
+function clearValues() {
+    name.value = '';
+    phone_number.value = '';
+    email.value = '';
+    password.value = '';
+    password_confirmation.value = '';
+    role.value = '';
+    numeroInvalido.value = false;
 };
 </script>
 

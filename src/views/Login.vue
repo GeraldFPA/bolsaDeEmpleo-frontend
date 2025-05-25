@@ -32,6 +32,8 @@ import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+
+
 const userStore = useUserStore();
 
 const router = useRouter();
@@ -40,7 +42,7 @@ const password = ref('');
 
 async function login() {
   try {
-  const API_URL = import.meta.env.VITE_API_URL; // importar la URL de la API desde el archivo .env
+    const API_URL = import.meta.env.VITE_API_URL; // importar la URL de la API desde el archivo .env
 
 
     const response = await fetch(`${API_URL}/login`, {
@@ -64,25 +66,32 @@ async function login() {
     const data = await response.json();
     console.log('Código de respuesta:', response.status);
     console.log('Respuesta del backend:', data);
-   
+
     userStore.setUserData({
       token: data.access_token,
       role: data.role,
       id: data.id,
     });
-  
+
+   clearValues();
 
     router.push('/home');
   } catch (error) {
     console.error('Error al iniciar sesión:', error.message);
     alert('Correo o contraseña incorrectos.');
   }
-}
 
+}
+function clearValues() {
+  email.value = '';
+  password.value = '';
+}
 
 function register() {
   router.push('/RegistrarUsuario');
 }
+
+
 </script>
 
 <style scoped>

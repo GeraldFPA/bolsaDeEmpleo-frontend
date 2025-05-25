@@ -16,43 +16,17 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col size="6">
-            <ion-card v-if="role ==='employee'" @click="navigateTo('BuscarEmpleos')">
+          <ion-col v-for="card in filteredCards" :key="card.title" size="12" size-sm="6" size-md="4">
+            <ion-card @click="navigateTo(card.route)">
               <ion-card-header class="ion-text-center">
-                <ion-icon :icon="search" size="large" />
-                <ion-card-title>Buscar Empleos</ion-card-title>
-              </ion-card-header>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card v-if="role === 'company'" @click="navigateTo('CrearOferta')">
-              <ion-card-header class="ion-text-center">
-                <ion-icon :icon="briefcase" size="large" />
-                <ion-card-title>Ofertar un empleo</ion-card-title>
-              </ion-card-header>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col size="6">
-            <ion-card @click="navigateTo('HistorialUsuario')">
-              <ion-card-header class="ion-text-center">
-                <ion-icon :icon="time" size="large" />
-                <ion-card-title>Mi Historial</ion-card-title>
-              </ion-card-header>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card @click="navigateTo('PerfilUsuario')">
-              <ion-card-header class="ion-text-center">
-                <ion-icon :icon="person" size="large" />
-                <ion-card-title>Mi Perfil</ion-card-title>
+                <ion-icon :icon="card.icon" size="large" />
+                <ion-card-title>{{ card.title }}</ion-card-title>
               </ion-card-header>
             </ion-card>
           </ion-col>
         </ion-row>
       </ion-grid>
+
     </ion-content>
 
     <ion-footer>
@@ -85,9 +59,36 @@ const router = useRouter();
 const role = computed(() => userStore.role);
 
 
-onMounted(() => {
-  role.value = localStorage.getItem('role');
-});
+const cards = [
+  {
+    title: 'Buscar Empleos',
+    icon: search,
+    route: 'BuscarEmpleos',
+    visibleFor: ['employee'],
+  },
+  {
+    title: 'Ofertar un empleo',
+    icon: briefcase,
+    route: 'CrearOferta',
+    visibleFor: ['company'],
+  },
+  {
+    title: 'Mi Historial',
+    icon: time,
+    route: 'HistorialUsuario',
+    visibleFor: ['employee', 'company'],
+  },
+  {
+    title: 'Mi Perfil',
+    icon: person,
+    route: 'PerfilUsuario',
+    visibleFor: ['employee', 'company'],
+  },
+];
+
+const filteredCards = computed(() =>
+  cards.filter((card) => card.visibleFor.includes(role.value))
+);
 
 function navigateTo(page) {
   router.push(`/${page}`);
@@ -98,27 +99,47 @@ function navigateTo(page) {
 .dashboard-title {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: var(--ion-color-primary);
+  font-weight: 600;
 }
 
 ion-card {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 16px;
+  cursor: pointer;
 }
 
 ion-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 ion-icon {
   color: var(--ion-color-primary);
   margin-bottom: 10px;
+  font-size: 40px;
 }
 
 ion-card-title {
   font-size: 1rem;
   color: #333;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  ion-icon {
+    font-size: 32px;
+  }
+
+  ion-card-title {
+    font-size: 0.9rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.3rem;
+  }
 }
 
 .footer-text {
