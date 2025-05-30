@@ -76,9 +76,9 @@ import {
   IonItem, IonLabel, IonInput, IonTextarea, IonSelect, IonSelectOption,
   IonButton, IonBackButton, IonButtons
 } from '@ionic/vue';
-import axios from 'axios';
-import { useUserStore } from '@/stores/user';
-const userStore = useUserStore();
+import axiosInstance from '@/lib/axiosInstance';
+
+
 
 const puesto = ref('');
 const empresa = ref('');
@@ -93,23 +93,13 @@ const descripcion = ref('');
 async function crearOferta() {
   try {
 
-    const token = userStore.token; // obtener el token del store de usuario
     if (!puesto.value || !horario.value || !sueldo.value || !contrato.value || !descripcion.value) {
       alert('Por favor completa todos los campos.');
       return;
     }
 
-    console.log('Nueva oferta creada:', {
-      puesto: puesto.value,
-      horario: horario.value,
-      sueldo: sueldo.value,
-      contrato: contrato.value,
-      descripcion: descripcion.value
-    });
 
-    const API_URL = import.meta.env.VITE_API_URL; // importar la URL de la API desde el archivo .env
-
-    const response = await axios.post(`${API_URL}/oferta`, {
+    const response = await axiosInstance.post('/oferta', {
       puesto: puesto.value,
       categoria: categoria.value,
       empresa: empresa.value,
@@ -117,12 +107,6 @@ async function crearOferta() {
       sueldo: sueldo.value,
       contrato: contrato.value,
       descripcion: descripcion.value
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
     });
 
 
@@ -142,7 +126,7 @@ function clearValues() {
   empresa.value = '';
   categoria.value = '';
   horario.value = '';
-  sueldo.value = null;
+  sueldo.value = '';
   contrato.value = '';
   descripcion.value = '';
 } 

@@ -37,21 +37,39 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonSearchbar, IonList, IonCard, IonCardHeader, IonCardTitle,
   IonCardSubtitle, IonCardContent, IonBadge, IonButton,
   IonButtons, IonBackButton
 } from '@ionic/vue';
+import axios from '@/lib/axiosInstance';
+
 
 const searchQuery = ref('');
 
-const empleos = ref([
-  { id: 1, tipo: 'Desarrollador', categoria: 'TI', nombre: 'Paola Rossi', horario: 'Tiempo Completo', sueldo: 25000, contrato: 'Indefinido', descripcion: 'Desarrollo frontend y backend.' },
-  { id: 2, tipo: 'Diseñador', categoria: 'Creativo', nombre: 'Diego Campanella', horario: 'Medio Tiempo', sueldo: 15000, contrato: 'Definido', descripcion: 'Diseño gráfico y UX/UI.' },
-  { id: 3, tipo: 'Analista', categoria: 'Datos', nombre: 'Salvatore Bianchi', horario: 'Tiempo Completo', sueldo: 28000, contrato: 'Indefinido', descripcion: 'Análisis de datos y reportes.' }
-]);
+const empleos = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/ofertas'); // Ya usa baseURL y token
+
+    empleos.value = response.data.map(oferta => ({
+      id: oferta.id,
+      tipo: oferta.puesto,
+      categoria: oferta.categoria,
+      horario: oferta.horario,
+      sueldo: oferta.sueldo,
+      contrato: oferta.contrato,
+      descripcion: oferta.descripcion,
+      nombre: oferta.user?.name || 'Desconocido'
+    }));
+
+  } catch (error) {
+    console.error('Error al cargar ofertas:', error);
+  }
+});
 
 const filteredEmpleos = computed(() => {
   if (!searchQuery.value) return empleos.value;

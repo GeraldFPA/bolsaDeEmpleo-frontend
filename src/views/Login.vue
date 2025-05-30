@@ -31,46 +31,32 @@
 import { ref } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import axiosInstance from '@/lib/axiosInstance';
 import { useUserStore } from '@/stores/user';
 
-
-const userStore = useUserStore();
-
 const router = useRouter();
+const userStore = useUserStore();
 const email = ref('');
 const password = ref('');
 
 async function login() {
   try {
-    const API_URL = import.meta.env.VITE_API_URL; // importar la URL de la API desde el archivo .env
 
 
-    const response = await fetch(`${API_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
+    const response = await axiosInstance.post('/login', {
         email: email.value,
         password: password.value
-      })
-    });
+      });
 
-    if (!response.ok) {
-      const errorBody = await response.text(); // Para ver el error crudo
-      console.error('Código:', response.status, 'Detalle:', errorBody);
-      throw new Error(`HTTP ${response.status}`);
-    }
 
-    const data = await response.json();
     console.log('Código de respuesta:', response.status);
-    console.log('Respuesta del backend:', data);
+
+    console.log('Respuesta del backend:', response.data);
 
     userStore.setUserData({
-      token: data.access_token,
-      role: data.role,
-      id: data.id,
+      token: response.data.access_token,
+      role: response.data.role,
+      id: response.data.id,
     });
 
    clearValues();

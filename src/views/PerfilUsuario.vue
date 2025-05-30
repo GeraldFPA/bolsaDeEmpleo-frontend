@@ -68,7 +68,7 @@ import {
   IonButton, IonBackButton, IonButtons, IonIcon, IonAlert
 } from '@ionic/vue';
 import { cameraOutline } from 'ionicons/icons';
-import axios from 'axios';
+import axiosInstance from '@/lib/axiosInstance';
 import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
@@ -89,14 +89,8 @@ const cambiarFoto = () => {
 
 async function cerrarSesion() {
   try {
-    const token = userStore.token;
-    const API_URL = import.meta.env.VITE_API_URL; 
-
-    await axios.post(`${API_URL}/logout`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  
+    await axiosInstance.post('/logout');
 
     userStore.clearUserData();
    

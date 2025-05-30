@@ -71,7 +71,7 @@ import {
     IonBackButton, IonButtons, IonNote, IonRadioGroup, IonRadio
 } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
-import { onMounted } from 'vue';
+import axiosInstance from '@/lib/axiosInstance';
 
 const userStore = useUserStore();
 
@@ -94,9 +94,6 @@ const validarNumero = (event) => {
 
 async function registrar() {
     try {
-        const API_URL = import.meta.env.VITE_API_URL; // importar la URL de la API desde el archivo .env
-
-
 
         if (
             !name.value || !phone_number.value || !email.value ||
@@ -128,32 +125,22 @@ async function registrar() {
         }
 
 
-        const response = await fetch(`${API_URL}/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
+        const response = await axiosInstance.post('/register', {
                 name: name.value,
                 phone_number: phone_number.value,
                 email: email.value,
                 password: password.value,
                 role: role.value,
                 password_confirmation: password_confirmation.value
-            })
-        });
-        if (!response.ok) {
-            const errorBody = await response.text(); // Para ver el error crudo
-            console.error('Código:', response.status, 'Detalle:', errorBody);
-            throw new Error(`HTTP ${response.status}`);
-        }
+            });
 
-        const data = await response.json();
+        console.log('Código de respuesta:', response.status);
+        console.log('Respuesta del backend:', response.data);
+
         userStore.setUserData({
-            token: data.access_token,
-            role: data.role,
-            id: data.id,
+            token: response.data.access_token,
+            role: response.data.role,
+            id: response.data.id,
         });
         clearValues();
         router.push('/home');
