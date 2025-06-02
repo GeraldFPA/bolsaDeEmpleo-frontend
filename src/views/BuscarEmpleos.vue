@@ -28,7 +28,10 @@
               </ion-badge>
             </p>
             <p><strong>Descripción:</strong> {{ empleo.descripcion }}</p>
-            <ion-button color="secondary" size="small" @click="$router.push('/postularme')">Postularme</ion-button>
+            <ion-button color="secondary" size="small"
+              @click="$router.push({ name: 'Postularme', query: { ofertaId: empleo.id } })">
+              Postularme
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </ion-list>
@@ -53,7 +56,7 @@ const empleos = ref([]);
 async function cargarEmpleos() {
   try {
 
-    const response = await axiosInstance.get('/ofertas'); 
+    const response = await axiosInstance.get('/ofertas');
 
     empleos.value = response.data.map(oferta => ({
       id: oferta.id,
