@@ -22,7 +22,7 @@
           <ion-card-content>
             <p><strong>Horario:</strong> {{ empleo.horario }}</p>
             <p><strong>Sueldo:</strong> ₡{{ empleo.sueldo }}</p>
-            <p><strong>Contrato:</strong> 
+            <p><strong>Contrato:</strong>
               <ion-badge :color="empleo.contrato === 'Indefinido' ? 'success' : 'warning'">
                 {{ empleo.contrato }}
               </ion-badge>
@@ -37,23 +37,23 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonSearchbar, IonList, IonCard, IonCardHeader, IonCardTitle,
   IonCardSubtitle, IonCardContent, IonBadge, IonButton,
-  IonButtons, IonBackButton
+  IonButtons, IonBackButton, onIonViewWillEnter
 } from '@ionic/vue';
-import axios from '@/lib/axiosInstance';
-
+import axiosInstance from '@/lib/axiosInstance';
 
 const searchQuery = ref('');
 
 const empleos = ref([]);
 
-onMounted(async () => {
+async function cargarEmpleos() {
   try {
-    const response = await axios.get('/ofertas'); // Ya usa baseURL y token
+
+    const response = await axiosInstance.get('/ofertas'); 
 
     empleos.value = response.data.map(oferta => ({
       id: oferta.id,
@@ -67,9 +67,19 @@ onMounted(async () => {
     }));
 
   } catch (error) {
-    console.error('Error al cargar ofertas:', error);
+    console.error('Error al cargar ofertas:', {
+      message: error.message,
+      stack: error.stack
+    });
+    // Opcional: Mostrar notificación al usuario
   }
+}
+
+
+onIonViewWillEnter(async () => {
+  await cargarEmpleos();
 });
+
 
 const filteredEmpleos = computed(() => {
   if (!searchQuery.value) return empleos.value;
@@ -101,4 +111,3 @@ ion-badge {
   vertical-align: middle;
 }
 </style>
-

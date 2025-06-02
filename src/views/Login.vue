@@ -64,7 +64,7 @@ async function login() {
     router.push('/home');
   } catch (error) {
     console.error('Error al iniciar sesión:', error.message);
-    alert('Correo o contraseña incorrectos.');
+    alert('Correo o contraseña incorrectos.',error.message);
   }
 
 }

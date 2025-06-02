@@ -4,7 +4,9 @@ const config: CapacitorConfig = {
   appId: "io.ionic.starter",
   appName: "bolsaDeEmpleoAPP",
   webDir: "dist",
-
+server: {
+  androidScheme: "http",
+},
   plugins: {
 
     StatusBar: {
