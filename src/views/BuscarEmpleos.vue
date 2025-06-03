@@ -28,10 +28,13 @@
               </ion-badge>
             </p>
             <p><strong>Descripción:</strong> {{ empleo.descripcion }}</p>
-            <ion-button color="secondary" size="small"
+            <ion-button  v-if="!postulacionesHechas[empleo.id]" color="secondary" size="small"
               @click="$router.push({ name: 'Postularme', query: { ofertaId: empleo.id } })">
               Postularme
             </ion-button>
+            <ion-text color="success" v-else>
+              Ya te postulaste a esta oferta
+            </ion-text>
           </ion-card-content>
         </ion-card>
       </ion-list>
@@ -40,12 +43,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonSearchbar, IonList, IonCard, IonCardHeader, IonCardTitle,
   IonCardSubtitle, IonCardContent, IonBadge, IonButton,
-  IonButtons, IonBackButton, onIonViewWillEnter
+  IonButtons, IonBackButton, onIonViewWillEnter, IonText
 } from '@ionic/vue';
 import axiosInstance from '@/lib/axiosInstance';
 
@@ -81,7 +84,24 @@ async function cargarEmpleos() {
 
 onIonViewWillEnter(async () => {
   await cargarEmpleos();
+  await verificarPostulaciones();
 });
+
+const postulacionesHechas = ref({});
+
+
+const verificarPostulaciones = async () => {
+  for (const empleo of empleos.value) {
+    try {
+      const res = await axiosInstance.get(`/postulacion/existe/${empleo.id}`);
+      postulacionesHechas.value[empleo.id] = res.data.ya_postulado;
+    } catch (err) {
+      console.error(`Error al verificar postulación para oferta ${empleo.id}:`, err);
+      postulacionesHechas.value[empleo.id] = false; // por defecto
+    }
+  }
+};
+
 
 
 const filteredEmpleos = computed(() => {
