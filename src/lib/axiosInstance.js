@@ -5,7 +5,7 @@ import { useUserStore } from '@/stores/user';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
-  timeout: 10000, // 10 segundos de espera
+  timeout: 20000, // 20 segundos de espera
 });
 
 // Agregar token automáticamente en cada request

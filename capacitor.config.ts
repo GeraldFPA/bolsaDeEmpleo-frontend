@@ -12,6 +12,9 @@ server: {
     StatusBar: {
       overlaysWebView: false,
     },
+    Keyboard: {
+      resize : "body",
+    },
 
     SplashScreen: {
       launchAutoHide: true,
