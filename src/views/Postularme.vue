@@ -33,7 +33,7 @@
 
           <ion-item class="custom-item">
             <ion-label position="stacked" class="label-grande">Currículum (PDF)</ion-label>
-            <input type="file" accept="application/pdf" @change="handleFileUpload" class="file-input input-pequeno" />
+            <input ref="cvInput" type="file" accept="application/pdf" @change="handleFileUpload" class="file-input input-pequeno" />
           </ion-item>
 
           <ion-item class="custom-item">
@@ -71,6 +71,8 @@ const telefono = ref('');
 const comentario = ref('');
 const cvFile = ref(null);
 const idOferta = ref(null);
+const cvInput = ref(null);
+
 
 const handleFileUpload = (event) => {
   cvFile.value = event.target.files[0];
@@ -88,8 +90,7 @@ const enviarPostulacion = async () => {
   formData.append('telefono', telefono.value);
   formData.append('comentario', comentario.value);
   formData.append('cv', cvFile.value);
-  formData.append('oferta_id', idOferta.value); // debes obtener el ID de la oferta
-
+  formData.append('oferta_id', idOferta.value); 
   try {
     await axiosInstance.post('/postular', formData, {
       headers: {
@@ -97,18 +98,29 @@ const enviarPostulacion = async () => {
       }
     });
     alert('¡Postulación enviada con éxito!');
+    clearValues();
     router.push('/BuscarEmpleos');
   } catch (error) {
     console.error('Error al enviar postulación:', error);
     alert('Hubo un error al enviar tu postulación.');
   }
 };
+function clearValues() {
+  nombre.value = '';
+  email.value = '';
+  telefono.value = '';
+  comentario.value = '';
+  cvFile.value = null;
+    if (cvInput.value) {
+    cvInput.value.value = ''; // Esto limpia el input file
+  }
+}
 onMounted(() => {
   idOferta.value = route.query.ofertaId ?? null;
 
   if (!idOferta.value) {
-    console.warn('⚠️ No se recibió el ID de la oferta. Redireccionando o mostrando error...');
-    // Puedes redirigir o mostrar una alerta
+    console.warn('No se recibió el ID de la oferta. Redireccionando o mostrando error...');
+    
   }
   console.log('ID de oferta recibido:', idOferta.value);
 });

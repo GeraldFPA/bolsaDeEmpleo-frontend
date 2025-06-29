@@ -1,65 +1,70 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import HomePage from '../views/HomePage.vue'
-import BuscarEmpleos from '../views/BuscarEmpleos.vue'
-import Postularme from '@/views/Postularme.vue';
-import CrearOferta from '@/views/CrearOferta.vue';
-import PerfilUsuario from '@/views/PerfilUsuario.vue';
-import RegistrarUsuario from '@/views/RegistrarUsuario.vue';
-import HistorialUsuario from '@/views/HistorialUsuario.vue';
-import Login from '@/views/Login.vue';
+import { createRouter, createWebHistory } from "@ionic/vue-router";
+import { RouteRecordRaw } from "vue-router";
+import HomePage from "../views/HomePage.vue";
+import BuscarEmpleos from "../views/BuscarEmpleos.vue";
+import Postularme from "@/views/Postularme.vue";
+import CrearOferta from "@/views/CrearOferta.vue";
+import PerfilUsuario from "@/views/PerfilUsuario.vue";
+import RegistrarUsuario from "@/views/RegistrarUsuario.vue";
+import HistorialUsuario from "@/views/HistorialUsuario.vue";
+import Postulaciones from "@/views/Postulaciones.vue";
+import Login from "@/views/Login.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    redirect: '/Login'
+    path: "/",
+    redirect: "/Login",
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: HomePage
-  }
-,
-  {
-    path: '/BuscarEmpleos',
-    name: 'BuscarEmpleos',
-    component: BuscarEmpleos
+    path: "/home",
+    name: "Home",
+    component: HomePage,
   },
   {
-    path: '/Postularme',
-    name: 'Postularme',
-    component: Postularme
+    path: "/BuscarEmpleos",
+    name: "BuscarEmpleos",
+    component: BuscarEmpleos,
   },
   {
-    path: '/CrearOferta',
-    name: 'crearOferta',
-    component: CrearOferta
+    path: "/Postularme",
+    name: "Postularme",
+    component: Postularme,
   },
   {
-    path: '/PerfilUsuario',
-    name: 'PerfilUsuario',
-    component: PerfilUsuario
+    path: "/CrearOferta",
+    name: "crearOferta",
+    component: CrearOferta,
   },
   {
-    path: '/RegistrarUsuario',
-    name: 'RegistrarUsuario',
-    component: RegistrarUsuario
+    path: "/PerfilUsuario",
+    name: "PerfilUsuario",
+    component: PerfilUsuario,
   },
   {
-    path: '/HistorialUsuario',
-    name: 'HistorialUsuario',
-    component: HistorialUsuario
+    path: "/RegistrarUsuario",
+    name: "RegistrarUsuario",
+    component: RegistrarUsuario,
   },
   {
-    path: '/Login',
-    name: 'Login',
-    component: Login
-  }
-]
+    path: "/HistorialUsuario",
+    name: "HistorialUsuario",
+    component: HistorialUsuario,
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/Postulaciones",
+    name: "Postulaciones",
+    component: Postulaciones,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
