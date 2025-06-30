@@ -9,6 +9,7 @@ import RegistrarUsuario from "@/views/RegistrarUsuario.vue";
 import HistorialUsuario from "@/views/HistorialUsuario.vue";
 import Postulaciones from "@/views/Postulaciones.vue";
 import Login from "@/views/Login.vue";
+import MisNotificaciones from "@/views/MisNotificaciones.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -60,6 +61,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Postulaciones",
     component: Postulaciones,
   },
+  {
+    path: "/MisNotificaciones",
+    name: "MisNotificaciones",
+    component: MisNotificaciones,
+  }
 ];
 
 const router = createRouter({

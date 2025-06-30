@@ -59,6 +59,13 @@ async function login() {
       id: response.data.id,
     });
 
+    // const notifResponse = await axiosInstance.get('/notificaciones/noleidas');
+    // if (notifResponse.data.length > 0) {
+    //   notifResponse.data.forEach(n => {
+    //     // Puedes usar un Toast o un Modal, aquí solo ejemplo con alert
+    //     alert(n.mensaje);
+    //   });
+    // }
    clearValues();
 
     router.push('/home');

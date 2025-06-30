@@ -27,7 +27,17 @@
         </ion-row>
       </ion-grid>
 
+     <ion-toast 
+    :is-open="toastVisible" 
+    :message="toastMessage" 
+    :duration="5000" 
+    position="bottom"
+    color="success" 
+    :buttons="[{ text: 'Cerrar', role: 'cancel' }]"
+    @didDismiss="toastVisible = false" />
+
     </ion-content>
+
 
     <ion-footer>
       <ion-toolbar color="primary">
@@ -43,20 +53,31 @@
         </ion-title>
       </ion-toolbar>
     </ion-footer>
+   
   </ion-page>
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonContent, IonFooter, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle } from '@ionic/vue';
-import { personCircle, search, briefcase, time, person } from 'ionicons/icons';
+import {
+  IonPage, IonHeader, IonToolbar, IonTitle, IonButtons,
+  IonButton, IonIcon, IonContent, IonFooter, IonGrid, IonRow, IonCol, IonCard,
+  IonCardHeader, IonCardTitle, onIonViewDidEnter, IonToast
+} from '@ionic/vue';
+
+import { personCircle, search, briefcase, time, person, notifications } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { computed } from 'vue';
+import axiosInstance from '@/lib/axiosInstance';
 
 const userStore = useUserStore();
 const router = useRouter();
 const role = computed(() => userStore.role);
+
+const toastVisible = ref(false);
+const toastMessage = ref('');
+
 
 
 const cards = [
@@ -64,6 +85,12 @@ const cards = [
     title: 'Buscar Empleos',
     icon: search,
     route: 'BuscarEmpleos',
+    visibleFor: ['employee'],
+  },
+  {
+    title: 'Mis notificaciones',
+    icon: notifications,
+    route: 'MisNotificaciones',
     visibleFor: ['employee'],
   },
   {
@@ -93,6 +120,30 @@ const filteredCards = computed(() =>
 function navigateTo(page) {
   router.push(`/${page}`);
 }
+const cargarNotificaciones = async () => {
+  try {
+    const notifResponse = await axiosInstance.get('/notificaciones/noleidas');
+    console.log('Notificaciones cargadas:', notifResponse.data);
+
+    if (notifResponse.data.length > 0) {
+      for (const n of notifResponse.data) {
+        toastMessage.value = n.mensaje;
+        toastVisible.value = true;
+        await new Promise(resolve => setTimeout(resolve, 3200));
+      }
+
+      await axiosInstance.post('/notificaciones/marcar-leidas');
+    }
+  } catch (error) {
+    console.error('Error al cargar notificaciones:', error);
+
+  }
+}
+onIonViewDidEnter(async () => {
+
+  await cargarNotificaciones();
+
+}); 
 </script>
 
 <style scoped>
@@ -121,6 +172,7 @@ ion-icon {
   margin-bottom: 10px;
   font-size: 40px;
 }
+
 
 ion-card-title {
   font-size: 1rem;
@@ -153,4 +205,5 @@ ion-card-title {
   color: #cce6ff;
   text-decoration: underline;
 }
+
 </style>

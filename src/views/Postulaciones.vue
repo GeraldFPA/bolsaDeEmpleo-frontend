@@ -28,7 +28,7 @@
                             <ion-button :href="getCvUrl(postulacion)" download>
                                 Descargar CV
                             </ion-button>
-                            <ion-button color="success" @click="">
+                            <ion-button color="success" @click="aceptarPostulante(postulacion.id)">
                                 Aceptar postulante
                             </ion-button>
                         </div>
@@ -72,6 +72,25 @@ const cargarPostulacionesRecibidas = async () => {
         console.error('Error al obtener postulaciones:', error);
     }
 };
+const aceptarPostulante = async (idPostulacion) => {
+    try {
+        const response = await axiosInstance.post(
+            `/postulaciones/aceptar/${idPostulacion}/${idOferta.value}`
+        );
+
+        console.log('Postulante aceptado:', response.data);
+
+        // Opcional: actualizar el listado
+        await cargarPostulacionesRecibidas();
+
+        // Mostrar alerta o notificación visual
+        alert('Postulante aceptado correctamente.');
+
+    } catch (error) {
+        console.error('Error al aceptar postulante:', error);
+        alert('Hubo un error al aceptar al postulante.');
+    }
+};
 onMounted(() => {
     if (esOfertante) {
         cargarPostulacionesRecibidas();
@@ -92,11 +111,12 @@ ion-card-subtitle {
 ion-card-content p {
     margin: 6px 0;
 }
+
 .acciones {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* espacio entre botones */
+    gap: 10px;
+    /* espacio entre botones */
     margin-top: 10px;
 }
-
 </style>
