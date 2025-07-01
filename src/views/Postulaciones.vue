@@ -23,14 +23,17 @@
                         <p><strong>Teléfono:</strong> {{ postulacion.telefono }}</p>
                         <p><strong>Comentario:</strong> {{ postulacion.comentario || 'Sin comentario' }}</p>
 
-                        <!-- BOTONES AGRUPADOS -->
                         <div class="acciones">
                             <ion-button :href="getCvUrl(postulacion)" download>
                                 Descargar CV
                             </ion-button>
-                            <ion-button color="success" @click="aceptarPostulante(postulacion.id)">
-                                Aceptar postulante
+                            <ion-button color="success" @click="aceptarPostulante(postulacion.id)"
+                                :disabled="postulacion.estado === 'aceptada'">
+                                {{ postulacion.estado === 'aceptada' ? 'Postulante Aceptado' : 'Aceptar postulante' }}
                             </ion-button>
+                            <p v-if="postulacion.estado === 'aceptada'" class="mensaje-aceptado">
+                                Este postulante ya fue aceptado.
+                            </p>
                         </div>
                     </ion-card-content>
                 </ion-card>
@@ -42,7 +45,8 @@
 import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton,
     IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle,
-    IonCardContent, IonList
+    IonCardContent, IonList,
+    onIonViewDidEnter, IonButton
 } from '@ionic/vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
@@ -58,7 +62,7 @@ idOferta.value = route.query.ofertaId;
 
 const postulacionesRecibidas = ref([]);
 const getCvUrl = (postulacion) => {
-    return `${import.meta.env.VITE_API_URL}/cv/${postulacion.id}`; // Asume ruta para descargar
+    return `${import.meta.env.VITE_API_URL}/cv/${postulacion.id}`;
 };
 const cargarPostulacionesRecibidas = async () => {
     try {
@@ -80,10 +84,8 @@ const aceptarPostulante = async (idPostulacion) => {
 
         console.log('Postulante aceptado:', response.data);
 
-        // Opcional: actualizar el listado
         await cargarPostulacionesRecibidas();
 
-        // Mostrar alerta o notificación visual
         alert('Postulante aceptado correctamente.');
 
     } catch (error) {
@@ -91,7 +93,7 @@ const aceptarPostulante = async (idPostulacion) => {
         alert('Hubo un error al aceptar al postulante.');
     }
 };
-onMounted(() => {
+onIonViewDidEnter(() => {
     if (esOfertante) {
         cargarPostulacionesRecibidas();
     }
@@ -116,7 +118,11 @@ ion-card-content p {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    /* espacio entre botones */
     margin-top: 10px;
+}
+.mensaje-aceptado {
+  color: green;
+  font-weight: 500;
+  margin-top: 6px;
 }
 </style>
